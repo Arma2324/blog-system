@@ -1,0 +1,39 @@
+// require express framwork
+const express = require('express')
+// create serve
+const app = express()
+// require node native module to handle path
+const path = require('path')
+const session = require('express-session')
+
+// connect MongoDB
+require('./model/connect.js')
+
+//test
+// require('./model/user.js')
+
+// configurate template engine
+app.engine('html', require('express-art-template'))
+
+app.use(session({ secret: 'blogsystem' }))
+
+// serve static assets
+app.use('/public', express.static(path.join(__dirname, 'public')))
+app.use('/node_modules', express.static(path.join(__dirname, 'node_modules')))
+
+// parse application/x-www-form-urlencoded
+app.use(express.urlencoded({ extended: false }))
+
+// intercept request to /admin make sure user already login
+app.use('/admin', require('./middleware/loginGuard'))
+// require route modules
+const home = require('./routes/home.js')
+const admin = require('./routes/admin.js')
+// match path for route modules
+app.use('/home', home)
+app.use('/admin', admin)
+
+// server listen at port 80
+app.listen(80, () => {
+  console.log('app listening at http://localhost:80')
+})

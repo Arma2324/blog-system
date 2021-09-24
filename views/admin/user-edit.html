@@ -1,0 +1,47 @@
+{{ extend './common/layout.html'}}
+
+{{block 'main'}}
+    <!-- common header -->
+    {{ include './common/header.html'}}
+    <div class="container-fluid">
+      <div class="row">
+        <!-- common sidebar -->
+        {{ include './common/sidebar.html'}}
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4" style="margin-top: 30px">
+          <div class="row" style="padding: 0 24px;">
+            <h2 class=".col-auto mr-auto">Form</h2>
+          </div>
+          <form action="/admin/user-edit" method="POST">
+            <div class="form-group">
+              <label for="exampleInputPassword1">Username</label>
+              <input type="text" name="username" class="form-control" id="exampleInputPassword1">
+            </div>
+            <div class="form-group">
+              <label for="exampleInputEmail1">Email address</label>
+              <input type="email" name="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+              <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+            </div>
+            <div class="form-group">
+              <label for="exampleInputPassword1">Password</label>
+              <input type="password" name="password" class="form-control" id="exampleInputPassword1">
+            </div>
+            <div class="form-group">
+              <label for="exampleFormControlSelect1">Role</label>
+              <select name="role" class="form-control" id="exampleFormControlSelect1">
+                <option value="normal">Normal User</option>
+                <option value="admin">Admin</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="exampleFormControlSelect1">State</label>
+              <select name="state" class="form-control" id="exampleFormControlSelect1">
+                <option value="0">Available</option>
+                <option value="1">Forbbiden</option>
+              </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </form>
+        </main>
+      </div>
+    </div>
+{{/block}}

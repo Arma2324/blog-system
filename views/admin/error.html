@@ -1,0 +1,22 @@
+{{ extend './common/layout.html' }}
+
+{{ block 'main'}}
+<h2 class="bg-danger error">{{ msg }}</h2>
+<small>Redirect to login page automatically after <span id="countdown">5</span> s</small>
+{{ /block}}
+
+{{ block 'script'}}
+<script>
+  const countdown = document.querySelector('#countdown')
+  let count = 4
+  
+  const timer = setInterval(() => {
+    countdown.innerHTML = count
+    if (count === 0) {
+      clearInterval(timer)
+      location.href = '/admin/login'
+    }
+    count--
+  }, 1000)
+</script>
+{{ /block}}
