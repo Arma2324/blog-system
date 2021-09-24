@@ -1,3 +1,4 @@
 module.exports = (req, res) => {
-  res.render('admin/user-edit.html')
+  const { message } = req.query
+  res.render('admin/user-edit.html', { message })
 }

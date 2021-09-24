@@ -1,11 +1,13 @@
-{{ extend './common/layout.html' }}
+{{extend './common/layout.html'}}
 
-{{ block 'main'}}
-<h2 class="bg-danger error">{{ msg }}</h2>
-<small>Redirect to login page automatically after <span id="countdown">5</span> s</small>
-{{ /block}}
+{{block 'main'}}
+<h2 class="alert alert-danger" role="alert">
+  {{ msg }}
+  <small>Redirect to login page automatically after <span id="countdown">5</span> s</small>
+</h2>
+{{/block}}
 
-{{ block 'script'}}
+{{block 'script'}}
 <script>
   const countdown = document.querySelector('#countdown')
   let count = 4
@@ -19,4 +21,4 @@
     count--
   }, 1000)
 </script>
-{{ /block}}
+{{/block}}

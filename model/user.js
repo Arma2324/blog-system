@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const Joi = require('joi')
 const crypto = require('crypto')
 const { Schema } = mongoose
 
@@ -48,6 +49,22 @@ const User = mongoose.model('User', userSchema)
 //   console.log('create user failed!')
 // })
 
+// validation rules
+
+
+const validateUser = user => {
+  const schema = Joi.object({
+    username: Joi.string().min(4).max(20).required(),
+    email: Joi.string().email().required(),
+    password: Joi.string().regex(/^[a-zA-Z0-9]{6,30}$/).required().error(new Error('Password must be character and number!(6~30charcters)')),
+    role: Joi.string().valid('normal', 'admin').required(),
+    state: Joi.number().valid(0, 1).required()
+  })
+
+  return schema.validate(user)
+}
+
 module.exports = {
-  User
+  User,
+  validateUser
 }

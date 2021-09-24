@@ -33,6 +33,13 @@ const admin = require('./routes/admin.js')
 app.use('/home', home)
 app.use('/admin', admin)
 
+// configurate errorhandler midlleware
+app.use((err, req, res, next) => {
+  // err is string type
+  const errObj = JSON.parse(err)
+  res.redirect(`${errObj.path}?message=${errObj.message}`)
+})
+
 // server listen at port 80
 app.listen(80, () => {
   console.log('app listening at http://localhost:80')
