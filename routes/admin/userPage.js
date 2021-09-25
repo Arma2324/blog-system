@@ -7,8 +7,10 @@ module.exports = async (req, res) => {
   const totalUser = await User.countDocuments()
   let totalPage = Math.ceil(totalUser / pageSize)
   let page = req.query.page
+  // in case user enter invalid page number in the url
   page > totalPage && (page = totalPage)
   ;(page <= 0 || !!!(page - 0)) && (page = 1)
+  
   const start = (page - 1) * pageSize
   const users = await User.find({}).limit(pageSize).skip(start)
   

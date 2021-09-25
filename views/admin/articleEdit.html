@@ -22,23 +22,53 @@
             </div>
             <div class="form-group">
               <label for="exampleInputPassword1">Author</label>
-              <input type="text" name="author" class="form-control" id="exampleInputPassword1">
+              <input type="text" name="author" class="form-control" id="exampleInputPassword1" value="{{@ userInfo._id}}" readonly>
             </div>
             <div class="form-group">
               <label for="dateInput">Publish Date</label>
               <input type="date" name="publishDate" class="form-control" id="dateInput">
             </div>
             <div class="form-group">
-              <label for="exampleFormControlFile1">Article Cover</label>
-              <input type="file" name="cover" class="form-control-file" id="exampleFormControlFile1">
+              <label for="file">Article Cover</label>
+              <input type="file" name="cover" class="form-control-file" id="file">
+              <div class="text-center">
+                <img src="" class="img-thumbnail" id="preview">
+              </div>
             </div>
             <div class="form-group">
-              <label for="exampleFormControlTextarea1">Content</label>
-              <textarea class="form-control" name="content" id="exampleFormControlTextarea1" rows="3"></textarea>
+              <label for="editor">Content</label>
+              <textarea class="form-control" name="content" id="editor"></textarea>
             </div>
             <button type="submit" class="btn btn-primary">Submit</button>
           </form>
         </main>
       </div>
     </div>
+{{/block}}
+{{block 'script'}}
+<script src="https://cdn.ckeditor.com/ckeditor5/29.2.0/classic/ckeditor.js"></script>
+<script>
+  ClassicEditor
+      .create( document.querySelector( '#editor' ) )
+      .catch( error => {
+          console.error( error )
+      } )
+
+  // get the file upload field
+  const file = document.querySelector('#file')
+  const preview = document.querySelector('#preview')
+  // triggered after seleted a file
+  file.onchange = function() {
+    // create fileReader instance
+    const reader = new FileReader()
+    // read file
+    // this.files(file.files) is an array contains all the selected files
+    reader.readAsDataURL(this.files[0])
+    // listen onload event
+    reader.onload = () => {
+      console.log(reader.result)
+      preview.src = reader.result
+    }
+  }
+</script>
 {{/block}}
