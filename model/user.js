@@ -1,9 +1,9 @@
 const mongoose = require('mongoose')
 const Joi = require('joi')
-const crypto = require('crypto')
+
 const { Schema } = mongoose
 
-// create collection rules
+// define collection rules
 const userSchema = new Schema({
   username: {
     type: String,

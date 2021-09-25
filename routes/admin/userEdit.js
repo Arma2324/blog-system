@@ -1,5 +1,4 @@
-const crypto = require('crypto')
-const { nextTick } = require('process')
+const { crypt } = require('../../crypto/crypt')
 const { User, validateUser } = require('../../model/user')
 
 module.exports = async (req, res, next) => {
@@ -15,6 +14,7 @@ module.exports = async (req, res, next) => {
     // note that the parameter of next function should be string, use JSON.stringify method
     return next(JSON.stringify({ path: '/admin/user-edit', message: error.message }))
   } else {
+    const page = req.query.page
     const { email } = value
     // find user according to email
     const user = await User.findOne({ email })
@@ -25,10 +25,10 @@ module.exports = async (req, res, next) => {
       return next(JSON.stringify({ path: '/admin/user-edit', message: `"${email}"  has been used, please use other email.` }))
     }
     // email is available, encrypt the password and then create a user
-    const safePassword = crypto.createHmac('sha256', 'blogsystem').update(value.password).digest('hex')
-    value.password = safePassword
+    
+    value.password = crypt(value.password)
     await User.create(value)
     // redirect to user list page
-    res.redirect('/admin/user')
+    res.redirect('/admin/users?page=' + page)
   }
 }

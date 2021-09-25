@@ -1,5 +1,5 @@
 const { User } = require('../../model/user')
-const crypto = require('crypto')
+const { checkPassword } = require('../../crypto/crypt')
 
 module.exports = async (req, res) => {
   let { email, password } = req.body
@@ -9,14 +9,13 @@ module.exports = async (req, res) => {
   }
   // find user according to email
   let user = await User.findOne({ email })
-  // encrypt password
-  const safePassword = crypto.createHmac('sha256', 'blogsystem').update(password).digest('hex')
   // user exists
   if (user) {
-    if (user.password === safePassword) {  // password match
+    const passwordMatch = await checkPassword(password, user.password)
+    if (passwordMatch) {
       req.session.username = user.username
       req.app.locals.userInfo = user
-      res.redirect('/admin/user')  // redirect to user page
+      res.redirect('/admin/users')  // redirect to user page
     } else {   // password is wrong
       return res.status(400).render('admin/error.html', { msg: 'Email or password is wrong!'})
     }

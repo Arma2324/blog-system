@@ -25,7 +25,7 @@ app.use('/node_modules', express.static(path.join(__dirname, 'node_modules')))
 app.use(express.urlencoded({ extended: false }))
 
 // intercept request to /admin make sure user already login
-app.use('/admin', require('./middleware/loginGuard'))
+//app.use('/admin', require('./middleware/loginGuard'))
 // require route modules
 const home = require('./routes/home.js')
 const admin = require('./routes/admin.js')
@@ -37,7 +37,13 @@ app.use('/admin', admin)
 app.use((err, req, res, next) => {
   // err is string type
   const errObj = JSON.parse(err)
-  res.redirect(`${errObj.path}?message=${errObj.message}`)
+  let params = []
+  for (let prop in errObj) {
+    if (prop !== 'path') {
+      params.push(prop + '=' + errObj[prop])
+    }
+  }
+  res.redirect(`${errObj.path}?${params.join('&')}`)
 })
 
 // server listen at port 80

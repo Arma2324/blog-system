@@ -1,0 +1,44 @@
+{{extend './common/layout.html'}}
+
+{{block 'main'}}
+    <!-- common header -->
+    {{include './common/header.html'}}
+    <div class="container-fluid">
+      <div class="row">
+        <!-- common sidebar -->
+        {{include './common/sidebar.html'}}
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4" style="margin-top: 30px">
+          <div class="row" style="padding: 0 24px;">
+            <h2 style="display: {{user ? 'block' : 'none'}}" class=".col-auto mr-auto">ID: {{id}}</h2>
+          </div>
+          {{if !!message}}
+            <div class="alert alert-warning" role="alert">{{message}}</div>
+          {{/if}}
+          <!-- cause this form include file input so the enctype of the form should be multipart/form-data -->
+          <form action="/admin/article-add" method="POST" enctype="multipart/form-data">
+            <div class="form-group">
+              <label for="exampleInputEmail1">Title</label>
+              <input type="text" name="title" class="form-control" id="exampleInputEmail1">
+            </div>
+            <div class="form-group">
+              <label for="exampleInputPassword1">Author</label>
+              <input type="text" name="author" class="form-control" id="exampleInputPassword1">
+            </div>
+            <div class="form-group">
+              <label for="dateInput">Publish Date</label>
+              <input type="date" name="publishDate" class="form-control" id="dateInput">
+            </div>
+            <div class="form-group">
+              <label for="exampleFormControlFile1">Article Cover</label>
+              <input type="file" name="cover" class="form-control-file" id="exampleFormControlFile1">
+            </div>
+            <div class="form-group">
+              <label for="exampleFormControlTextarea1">Content</label>
+              <textarea class="form-control" name="content" id="exampleFormControlTextarea1" rows="3"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </form>
+        </main>
+      </div>
+    </div>
+{{/block}}
