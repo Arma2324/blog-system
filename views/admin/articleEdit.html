@@ -9,16 +9,17 @@
         {{include './common/sidebar.html'}}
         <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4" style="margin-top: 30px">
           <div class="row" style="padding: 0 24px;">
-            <h2 style="display: {{user ? 'block' : 'none'}}" class=".col-auto mr-auto">ID: {{id}}</h2>
+            <h3 style="display: {{article ? 'block' : 'none'}}" class=".col-auto">Article ID: {{id}}</h3>
+            <a class="btn btn-primary ml-auto" href="/admin/article-list?page={{page}}" role="button">Return</a>
           </div>
           {{if !!message}}
             <div class="alert alert-warning" role="alert">{{message}}</div>
           {{/if}}
           <!-- cause this form include file input so the enctype of the form should be multipart/form-data -->
-          <form action="/admin/article-add" method="POST" enctype="multipart/form-data">
+          <form action="{{link}}" method="POST" enctype="multipart/form-data">
             <div class="form-group">
               <label for="exampleInputEmail1">Title</label>
-              <input type="text" name="title" class="form-control" id="exampleInputEmail1">
+              <input type="text" name="title" class="form-control" id="exampleInputEmail1" value="{{article ? article.title : ''}}">
             </div>
             <div class="form-group">
               <label for="exampleInputPassword1">Author</label>
@@ -26,20 +27,20 @@
             </div>
             <div class="form-group">
               <label for="dateInput">Publish Date</label>
-              <input type="date" name="publishDate" class="form-control" id="dateInput">
+              <input type="date" name="publishDate" class="form-control" id="dateInput" value="{{article ? dateFormat(article.publishDate, 'yyyy-mm-dd') : ''}}">
             </div>
             <div class="form-group">
               <label for="file">Article Cover</label>
               <input type="file" name="cover" class="form-control-file" id="file">
               <div class="text-center">
-                <img src="" class="img-thumbnail" id="preview">
+                <img src="{{article ? "/public" + article.cover : ''}}" class="img-thumbnail" id="preview">
               </div>
             </div>
             <div class="form-group">
               <label for="editor">Content</label>
-              <textarea class="form-control" name="content" id="editor"></textarea>
+              <textarea class="form-control" name="content" id="editor">{{article ? article.content : ''}}</textarea>
             </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="submit" class="btn btn-primary">{{article ? 'Modify' : 'Submit'}}</button>
           </form>
         </main>
       </div>

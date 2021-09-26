@@ -1,8 +1,8 @@
 const formidable = require('formidable')
 const path = require('path')
-const { Article } = require('../../model/article')
+const { Article, validateArticle } = require('../../model/article')
 
-module.exports = (req, res) => {
+module.exports = (req, res, next) => {
   // create form-resolve instance object
   const form = new formidable.IncomingForm()
   // configurate where the upload file to save
@@ -14,13 +14,19 @@ module.exports = (req, res) => {
     // err: error object, when parse form success it will be null
     // fields: object, contains normal form data
     // files: object, contains data concerning file
-    await Article.create({
+    const article = {
       title: fields.title,
       author: fields.author,
       publishDate: fields.publishDate,
       cover: files.cover.path.split('public')[1],
       content: fields.content
-    })
-    res.redirect('/admin/article-list')
+    }
+    const { error, value } = await validateArticle(article)
+    if (error) {
+      return next(JSON.stringify({ path: '/admin/article-edit', message: error.message}))
+    } else {
+      await Article.create(value)
+      res.redirect('/admin/article-list?page=' + req.query.page)
+    }
   })
 }

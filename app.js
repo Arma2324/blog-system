@@ -6,6 +6,10 @@ const app = express()
 const path = require('path')
 const session = require('express-session')
 
+// handle date format
+const dateFormat = require('dateformat')
+const template = require('art-template')
+
 // connect MongoDB
 require('./model/connect.js')
 
@@ -14,6 +18,9 @@ require('./model/connect.js')
 
 // configurate template engine
 app.engine('html', require('express-art-template'))
+
+// import dateFormat into template
+template.defaults.imports.dateFormat = dateFormat
 
 app.use(session({ secret: 'blogsystem' }))
 
@@ -25,7 +32,8 @@ app.use('/node_modules', express.static(path.join(__dirname, 'node_modules')))
 app.use(express.urlencoded({ extended: false }))
 
 // intercept request to /admin make sure user already login
-//app.use('/admin', require('./middleware/loginGuard'))
+app.use('/admin', require('./middleware/loginGuard'))
+
 // require route modules
 const home = require('./routes/home.js')
 const admin = require('./routes/admin.js')

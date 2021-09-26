@@ -1,4 +1,4 @@
-const { string } = require('joi')
+const Joi = require('joi')
 const mongoose = require('mongoose')
 
 const { Schema } = mongoose
@@ -6,14 +6,14 @@ const { Schema } = mongoose
 const articleSchema = new Schema({
   title: {
     type: String,
-    maxlength: 20,
-    minlength: 4,
+    maxlength: 100,
+    minlength: 1,
     required: [true, 'Please enter article title!']
   },
   author: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
-    required: [true, 'please enter autor!']
+    required: [true, 'please enter author!']
   },
   publishDate: {
     type: Date,
@@ -24,12 +24,25 @@ const articleSchema = new Schema({
     default: null
   },
   content: {
-    type: String
+    type: String,
+    require: true
   }
 })
 
 const Article = mongoose.model('Article', articleSchema)
 
+const validateArticle = (article) => {
+  const shema = Joi.object({
+    title: Joi.string().min(1).max(100).required(),
+    author: Joi.required(),
+    content: Joi.string().required(),
+    publishDate: Joi.any(),
+    cover: Joi.string().required()
+  })
+
+  return shema.validate(article)
+}
 module.exports = {
-  Article
+  Article,
+  validateArticle
 }

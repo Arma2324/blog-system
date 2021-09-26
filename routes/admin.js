@@ -22,4 +22,9 @@ admin.get('/article-list', require('./admin/articleList'))
 admin.get('/article-edit', require('./admin/articleEditPage'))
 
 admin.post('/article-add', require('./admin/articleAdd'))
+
+admin.post('/article-modify', require('./admin/articleModify'))
+
+admin.get('/article-delete', require('./admin/articleDelete'))
+
 module.exports = admin

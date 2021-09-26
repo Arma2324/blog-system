@@ -12,11 +12,13 @@
   "dependencies": {
     "art-template": "^4.13.2",
     "bootstrap": "^4.6.0",
+    "dateformat": "^5.0.1",
     "express": "^4.17.1",
     "express-art-template": "^1.0.1",
     "express-session": "^1.17.2",
     "formidable": "^1.2.2",
     "joi": "^17.4.2",
-    "mongoose": "^6.0.7"
+    "mongoose": "^6.0.7",
+    "mongoose-sex-page": "^1.2.4"
   }
 }

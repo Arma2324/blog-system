@@ -3,6 +3,8 @@
 {{block 'main'}}
     <!-- common header -->
     {{include './common/header.html'}}
+    <!-- define current page variable -->
+    {{set page = articles.page}}
     <div class="container-fluid">
       <div class="row">
         <!-- common sidebar -->
@@ -30,14 +32,14 @@
                 </tr>
               </thead>
               <tbody>
-                {{each users}}
+                {{each articles.records}}
                 <tr>
                   <td>{{@ $value._id}}</td>
-                  <td>{{$value.username}}</td>
-                  <td>{{$value.email}}</td>
-                  <td>{{$value.role}}</td>
+                  <td>{{$value.title}}</td>
+                  <td>{{dateFormat($value.publishDate, 'yyyy-mm-dd')}}</td>
+                  <td>{{$value.author}}</td>
                   <td>
-                    <a href="/admin/user-edit?id={{@ $value._id}}&page={{page}}" class="iconfont icon-edit"></a>
+                    <a href="/admin/article-edit?id={{@ $value._id}}&page={{page}}" class="iconfont icon-edit"></a>
                     <a class="iconfont icon-close deleteBtn"
                     href="javacript:;"
                     style="color: red"
@@ -51,22 +53,25 @@
               </tbody>
             </table>
           </div>
+          <!-- define pages variable, pages means total pages -->
+          {{set pages = articles.pages}}  
           <nav aria-label="...">
             <ul class="pagination justify-content-center">
-              <li class="page-item <%= page > 1 ? '' : 'disabled' %>">
-                <a class="page-link" href="/admin/users?page=<%= page - 1 %>" tabindex="-1">
+              <li class="page-item {{page > 1 ? '' : 'disabled'}}">
+                <a class="page-link" href="/admin/article-list?page={{page - 1}}" tabindex="-1">
                   Previous
                 </a>
               </li>
-              <% for(let i = 1; i <= totalPage; i++) { %>
-              <li class="page-item <%= page == i ? 'active' : '' %>">
-                <a class="page-link" href="/admin/users?page=<%= i %>">
-                  <%= i %>
+              {{each articles.display}}
+              
+              <li class="page-item {{page == $value ? 'active' : ''}}">
+                <a class="page-link" href="/admin/article-list?page={{$value}}">
+                  {{$value}}
                 </a>
               </li>
-              <% } %>
-              <li class="page-item <%= page == totalPage ? 'disabled' : '' %>">
-                <a class="page-link" href="/admin/users?page=<%= page - 0 + 1 %>" tabindex="-1">
+              {{/each}}
+              <li class="page-item {{page == pages ? 'disabled' : ''}}">
+                <a class="page-link" href="/admin/article-list?page={{page - 0 + 1}}" tabindex="-1">
                   Next
                 </a>
               </li>
@@ -78,7 +83,7 @@
     <!-- Modal -->
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog">
-        <form class="modal-content" action="/admin/user-delete" method="GET">
+        <form class="modal-content" action="/admin/article-delete" method="GET">
           <div class="modal-header">
             <h5 class="modal-title" id="exampleModalLabel">Notice</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -86,8 +91,8 @@
             </button>
           </div>
           <div class="modal-body">
-            Are you sure to delete this user?
-            <input type="hidden" name="id" id="deleteUserId">
+            Are you sure to delete this article?
+            <input type="hidden" name="id" id="deleteArticleId">
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
@@ -101,7 +106,7 @@
 <script>
   $('.deleteBtn').on('click', function() {
     const id = $(this).attr('data-id')
-    $('#deleteUserId').val(id)
+    $('#deleteArticleId').val(id)
   })
 </script>
 {{/block}}
