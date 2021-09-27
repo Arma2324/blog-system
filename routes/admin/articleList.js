@@ -14,11 +14,12 @@ module.exports = async (req, res) => {
   // size: sum of articles per page
   // display: determine display how many pagination
   // exec: sent search request to db
-  const articles = await pagination(Article).find().page(page).size(4).display(3).exec()
+  const articles = await pagination(Article).find().populate('author').page(page).size(4).display(3).exec()
+  const alias = JSON.parse(JSON.stringify(articles))
   if (articles.page > articles.pages) {
     res.redirect('/admin/article-list?page=' + articles.pages)
   } else {
     // res.send(articles)
-    res.render('admin/articleList.html', { articles })
+    res.render('admin/articleList.html', { articles: alias })
   }
 }

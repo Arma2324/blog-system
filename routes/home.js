@@ -1,9 +1,10 @@
 const express = require('express')
 const home = express.Router()
 
-home.get('/', (req, res) => {
-  //res.end('welcom to bolg home page')
-  res.render('test.html')
-})
+home.get('/', require('./home/homePage'))
+
+home.get('/article', require('./home/articlePage'))
+
+home.post('/comment', require('./home/comment'))
 
 module.exports = home

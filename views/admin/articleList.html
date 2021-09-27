@@ -37,7 +37,7 @@
                   <td>{{@ $value._id}}</td>
                   <td>{{$value.title}}</td>
                   <td>{{dateFormat($value.publishDate, 'yyyy-mm-dd')}}</td>
-                  <td>{{$value.author}}</td>
+                  <td>{{$value.author.username}}</td>
                   <td>
                     <a href="/admin/article-edit?id={{@ $value._id}}&page={{page}}" class="iconfont icon-edit"></a>
                     <a class="iconfont icon-close deleteBtn"

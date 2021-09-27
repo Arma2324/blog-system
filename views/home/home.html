@@ -1,0 +1,37 @@
+    {{extend './common/layout.html'}}
+    
+    {{block 'link'}}
+    <link rel="stylesheet" href="/public/home/css/home.css">
+    {{/block}}
+    {{block 'main'}}
+    {{include "./common/header.html"}}
+
+    <main role="main">
+      <div class="album py-5 bg-light">
+        <div class="container">
+          <div class="row">
+            {{each articles}}
+            <div class="col-md-4">
+              <div class="card mb-4 shadow-sm">
+                <img src="/public{{$value.cover}}" alt="" class="bd-placeholder-img card-img-top">
+                <div class="card-body">
+                  <h4 class="ellipsis">{{$value.title}}</h4>
+                  <p class="card-text multi-ellipsis">
+                    {{@$value.content.replace(/<[^>]+>/g, '')}}
+                  </p>
+                  <a href="/home/article?id={{@ $value._id}}" class="card-link">Detail</a>
+                  <div class="d-flex justify-content-between align-items-center">
+                    <small class="text-muted">Author: {{$value.author.username}}</small>
+                    <small class="text-muted">{{dateFormat($value.publishDate, 'yyyy-mm-dd')}}</small>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {{/each}}
+          </div>
+        </div>
+      </div>
+    </main>
+    
+    {{include './common/footer.html'}}
+    {{/block}}
