@@ -10,7 +10,7 @@
       <div class="album py-5 bg-light">
         <div class="container">
           <div class="row">
-            {{each articles}}
+            {{each articles.records}}
             <div class="col-md-4">
               <div class="card mb-4 shadow-sm">
                 <img src="/public{{$value.cover}}" alt="" class="bd-placeholder-img card-img-top">
@@ -30,6 +30,32 @@
             {{/each}}
           </div>
         </div>
+        <!-- define current page variable -->
+        {{set page = articles.page}}
+        <!-- define pages variable, pages means total pages -->
+        {{set pages = articles.pages}}  
+        <nav aria-label="...">
+          <ul class="pagination justify-content-center">
+            <li class="page-item {{page > 1 ? '' : 'disabled'}}">
+              <a class="page-link" href="/home?page={{page - 1}}" tabindex="-1">
+                Previous
+              </a>
+            </li>
+            {{each articles.display}}
+            
+            <li class="page-item {{page == $value ? 'active' : ''}}">
+              <a class="page-link" href="/home?page={{$value}}">
+                {{$value}}
+              </a>
+            </li>
+            {{/each}}
+            <li class="page-item {{page == pages ? 'disabled' : ''}}">
+              <a class="page-link" href="/home?page={{page - 0 + 1}}" tabindex="-1">
+                Next
+              </a>
+            </li>
+          </ul>
+        </nav>
       </div>
     </main>
     

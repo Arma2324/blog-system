@@ -14,15 +14,29 @@
         <p class="blog-post-meta">{{dateFormat(article.publishDate, 'yyyy-mm-dd')}} by <a href="#">{{article.author.username}}</a></p>
         {{@ article.content}}
       </div>
+      <h3>Comment ({{comments.length}})</h3>
+      <hr />
       <form action="/home/comment" method="POST">
         <div class="form-group">
-          <label for="exampleFormControlTextarea1">Comment</label>
-          <textarea class="form-control" name="content" id="exampleFormControlTextarea1" rows="3" required></textarea>
+          <textarea class="form-control" name="content" rows="3" placeholder="Please post a nice comment..." required></textarea>
         </div>
-        <input type="hidden" name="userId" value="{{article.author._id}}">
-        <input type="hidden" name="articleId" value="{{article._id}}">
-        <button type="submit" class="btn btn-primary">Submit</button>
+        {{if userInfo}}
+        <input type="hidden" name="uid" value="{{@ userInfo._id}}">
+        <input type="hidden" name="aid" value="{{article._id}}">
+        {{/if}}
+        <button type="submit" class="btn btn-primary" {{userInfo ? '' : 'disabled'}}>{{userInfo ? 'Submit' : 'Please login first'}}</button>
       </form>
+      <div class="list-group py-4">
+        {{each comments}}
+        <div class="list-group-item list-group-item-action">
+          <div class="d-flex w-100 justify-content-between">
+            <h5 class="mb-1">{{$value.uid.username}}: </h5>
+            <small>{{dateFormat($value.date, 'yyyy-mm-dd')}}</small>
+          </div>
+          <p class="mb-1">{{$value.content}}</p>
+        </div>
+        {{/each}}
+      </div>
     </div>
     <aside class="col-md-4 blog-sidebar">
       <div class="p-4 mb-3 bg-light rounded">
@@ -65,4 +79,10 @@
     <!-- /.blog-sidebar -->
   </div>
 </div>
+<footer class="blog-footer">
+  <p>Blog template built for <a href="https://getbootstrap.com/">Bootstrap</a> by <a href="https://twitter.com/mdo">@mdo</a>.</p>
+  <p>
+    <a href="#">Back to top</a>
+  </p>
+</footer>
 {{/block}}

@@ -14,8 +14,12 @@ module.exports = async (req, res) => {
     const passwordMatch = await checkPassword(password, user.password)
     if (passwordMatch) {
       req.session.username = user.username
+      req.session.role = user.role
       req.app.locals.userInfo = user
-      res.redirect('/admin/users')  // redirect to user page
+      if (user.role == 'admin')
+        return res.redirect('/admin/users')  // redirect to user page
+      else   // normal user
+        return res.redirect('/home')  
     } else {   // password is wrong
       return res.status(400).render('admin/error.html', { msg: 'Email or password is wrong!'})
     }

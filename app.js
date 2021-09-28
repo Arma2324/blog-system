@@ -22,7 +22,7 @@ app.engine('html', require('express-art-template'))
 // import dateFormat into template
 template.defaults.imports.dateFormat = dateFormat
 
-app.use(session({ secret: 'blogsystem' }))
+app.use(session({ secret: 'blogsystem', saveUninitialized: false }))
 
 // serve static assets
 app.use('/public', express.static(path.join(__dirname, 'public')))
