@@ -6,7 +6,7 @@ module.exports = async (req, res) => {
   page = page ? page : 1
   ;(page <= 0 || !!!(page - 0)) && (page = 1)
   // const articles = await pagination(Article).find().populate('author').page(1).size(3).dispaly(3).exec()
-  const articles = await pagination(Article).find().populate('author').page(page).size(3).display(3).exec()
+  const articles = await pagination(Article).find().populate('author').page(page).size(6).display(3).exec()
   // return res.send(articles)
   const alias = JSON.parse(JSON.stringify(articles))
   if (articles.page > articles.pages)
