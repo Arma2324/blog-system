@@ -44,21 +44,21 @@
 
   1. 访问首页和文章详情页
 
-     ![](./screenshots/home.gif)
+     ![首页动图(网络不好会加载不出，可在screenshots文件夹中查看)](./screenshots/home.gif)
 
   2. 评论和退出登录功能
 
-     ![](./screenshots/comment.gif)
+     ![评论功能动图(网络不好会加载不出，可在screenshots文件夹中查看)](./screenshots/comment.gif)
 
 * 管理员
 
   1. 登录访问后台管理系统
 
-     ![](./screenshots/admin.gif)
+     ![后台页面动图(网络不好会加载不出，可在screenshots文件夹中查看)](./screenshots/admin.gif)
 
   2. 文章管理
 
-     ![](./screenshots/article.gif)
+     ![文章管理动图(网络不好会加载不出，可在screenshots文件夹中查看)](./screenshots/article.gif)
 
 ### 三、项目运行
 
