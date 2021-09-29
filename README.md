@@ -44,7 +44,7 @@
 
   1. 访问首页和文章详情页
 
-     ![](./screenshots/home2.gif)
+     ![](./screenshots/home.gif)
 
   2. 评论和退出登录功能
 
